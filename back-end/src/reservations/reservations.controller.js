@@ -1,12 +1,14 @@
-/**
- * List handler for reservation resources
- */
+const service = require("./reservations.service");
+const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
+
+//validate that the date is valid
+
 async function list(req, res) {
-  res.json({
-    data: [],
-  });
+  const date = req.query.date;
+  const data = await service.listByDate(date);
+  res.json({ data: data });
 }
 
 module.exports = {
-  list,
+  list: [asyncErrorBoundary(list)],
 };
