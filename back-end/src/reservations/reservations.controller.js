@@ -1,14 +1,6 @@
 const service = require("./reservations.service");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 
-// VALIDATIONS TO create
-// hasValidProperties,
-// hasRequiredProperties,
-// hasValidDate,
-// hasValidTIme,
-// hasValidAmountofPeople,
-// Booked?,
-
 const requiredProperties = [
   "first_name",
   "last_name",
@@ -23,7 +15,6 @@ const timeFormat = /[0-9]{2}:[0-9]{2}/;
 
 async function hasValidPropertyFields(req, res, next) {
   const { data = {} } = req.body;
-  console.log("data.people is not a number: ", isNaN(data.people), data.people);
 
   //IF DATA IS MISSING
   if (!data) {
@@ -63,6 +54,30 @@ async function hasValidPropertyFields(req, res, next) {
   next();
 }
 
+async function hasValidDay(req, res, next) {
+  const { data = {} } = req.body;
+  const date = new Date(data.reservation_date);
+  const dayOfWeek = date.getDay();
+  console.log("day of week is: ", dayOfWeek);
+
+  //IF BOOKING DATE IS ON TUESDAY
+  if (dayOfWeek === 1) {
+    return next({
+      status: 400,
+      message: "The restaurant is closed on Tuesday",
+    });
+  }
+
+  //IF BOOKING DATE IS IN THE PAST
+  if (date < new Date()) {
+    return next({
+      status: 400,
+      message: "Reservations must be booked for today or future dates",
+    });
+  }
+  next();
+}
+
 async function list(req, res) {
   const date = req.query.date;
   const data = await service.listByDate(date);
@@ -79,6 +94,7 @@ module.exports = {
   list: [asyncErrorBoundary(list)],
   create: [
     asyncErrorBoundary(hasValidPropertyFields),
+    asyncErrorBoundary(hasValidDay),
     asyncErrorBoundary(create),
   ],
 };

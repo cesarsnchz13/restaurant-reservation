@@ -19,11 +19,18 @@ function NewReservation() {
   const [formData, setFormData] = useState(initialFormState);
   const [error, setError] = useState(null);
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
+    const abortController = new AbortController();
     e.preventDefault();
     setError(null);
-    createReservation(formData);
-    history.push(`/dashboard/?date=${formData.reservation_date}`);
+
+    try {
+      await createReservation(formData); // use try and catch so that if there is an error, it will display the error message
+      history.push(`/dashboard/?date=${formData.reservation_date}`);
+    } catch (err) {
+      setError(err);
+    }
+    return () => abortController.abort();
   };
 
   const cancelHandler = (e) => {
