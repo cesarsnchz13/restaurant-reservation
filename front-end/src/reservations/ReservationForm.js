@@ -1,14 +1,9 @@
-import { today, asTimeString } from "../utils/date-time";
-
 function ReservationForm({
   formData,
   setFormData,
   submitHandler,
   cancelHandler,
 }) {
-  const date = today();
-  const now = asTimeString();
-
   return (
     <>
       <form>
@@ -103,7 +98,6 @@ function ReservationForm({
                 })
               }
               value={formData.reservation_date}
-              min={date}
             />
           </div>
           <div className="form-group">
@@ -113,6 +107,8 @@ function ReservationForm({
               className="form-control"
               id="reservation_time"
               name="reservation_time"
+              min="10:30"
+              max="21:30"
               onChange={(e) => {
                 setFormData({
                   first_name: formData.first_name,
@@ -123,7 +119,6 @@ function ReservationForm({
                   people: formData.people,
                 });
               }}
-              min={now}
               value={formData.reservation_time}
             />
           </div>

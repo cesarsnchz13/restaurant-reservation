@@ -54,10 +54,11 @@ async function hasValidPropertyFields(req, res, next) {
   next();
 }
 
-async function hasValidDay(req, res, next) {
+async function hasValidDayAndTime(req, res, next) {
   const { data = {} } = req.body;
-  const date = new Date(data.reservation_date);
+  const date = new Date(`${data.reservation_date} ${data.reservation_time}`);
   const dayOfWeek = date.getDay();
+  const requestedTime = data.reservation_time;
   console.log("day of week is: ", dayOfWeek);
 
   //IF BOOKING DATE IS ON TUESDAY
@@ -73,6 +74,12 @@ async function hasValidDay(req, res, next) {
     return next({
       status: 400,
       message: "Reservations must be booked for today or future dates",
+    });
+  }
+  if (requestedTime <= "10:30" || requestedTime >= "21:30") {
+    return next({
+      status: 400,
+      message: "Cannot book reservations before 10:30AM or after 9:30PM",
     });
   }
   next();
@@ -94,7 +101,7 @@ module.exports = {
   list: [asyncErrorBoundary(list)],
   create: [
     asyncErrorBoundary(hasValidPropertyFields),
-    asyncErrorBoundary(hasValidDay),
+    asyncErrorBoundary(hasValidDayAndTime),
     asyncErrorBoundary(create),
   ],
 };
