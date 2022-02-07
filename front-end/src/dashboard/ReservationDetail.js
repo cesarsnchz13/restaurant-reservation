@@ -12,6 +12,7 @@ function ReservationDetail({ reservations }) {
     return newTime.join("");
   }
   const reservationList = reservations.map((res) => {
+    console.log(`Reservation set for ${res.reservation_date}`);
     return (
       <div
         key={res.reservation_id}

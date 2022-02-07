@@ -25,6 +25,7 @@ async function hasValidPropertyFields(req, res, next) {
   const { data = {} } = req.body;
   console.log("data.people is not a number: ", isNaN(data.people), data.people);
 
+  //IF DATA IS MISSING
   if (!data) {
     return next({ status: 400, message: "Requires request data" });
   }
@@ -45,12 +46,14 @@ async function hasValidPropertyFields(req, res, next) {
       message: `people must be a number`,
     });
   }
+  //IF reservation_date FORMAT IS INCORRECT
   if (!dateFormat.test(data.reservation_date)) {
     return next({
       status: 400,
       message: `reservation_date is not formatted correctly`,
     });
   }
+  //IF reservation_time FORMAT IS INCORRECT
   if (!timeFormat.test(data.reservation_time)) {
     return next({
       status: 400,
