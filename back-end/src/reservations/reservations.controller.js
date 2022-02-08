@@ -62,7 +62,7 @@ async function hasValidDayAndTime(req, res, next) {
   console.log("day of week is: ", dayOfWeek);
 
   //IF BOOKING DATE IS ON TUESDAY
-  if (dayOfWeek === 1) {
+  if (dayOfWeek === 2) {
     return next({
       status: 400,
       message: "The restaurant is closed on Tuesday",
@@ -73,9 +73,10 @@ async function hasValidDayAndTime(req, res, next) {
   if (date < new Date()) {
     return next({
       status: 400,
-      message: "Reservations must be booked for today or future dates",
+      message: "Reservations must be booked for a future time or date",
     });
   }
+  //IF BOOKING TIME IS DURING CLOSED HOURS
   if (requestedTime <= "10:30" || requestedTime >= "21:30") {
     return next({
       status: 400,
