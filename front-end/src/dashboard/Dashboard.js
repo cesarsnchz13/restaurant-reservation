@@ -4,9 +4,7 @@ import ReservationDetail from "./ReservationDetail";
 import TableDetail from "./TableDetail";
 import { previous, next, today } from "../utils/date-time";
 import useQuery from "../utils/useQuery";
-// import { Link, useRouteMatch } from "react-router-dom";
 import ErrorAlert from "../layout/ErrorAlert";
-//import { fakeData, fakeTables } from "./FakeData";
 
 function Dashboard({ date }) {
   const [reservations, setReservations] = useState([]);
@@ -17,7 +15,16 @@ function Dashboard({ date }) {
   const queryDate = query.get("date");
   date = dateDisplay;
 
-  useEffect(loadDashboard, [date]);
+  useEffect(() => {
+    const abortController = new AbortController();
+    setReservationsError(null);
+    listReservations({ date }, abortController.signal)
+      .then(setReservations)
+      .catch(setReservationsError);
+    listTables(abortController.signal).then(setTables);
+    return () => abortController.abort();
+  }, [date]);
+
   useEffect(changeDates, [date, queryDate]);
 
   function changeDates() {
@@ -27,16 +34,6 @@ function Dashboard({ date }) {
     } else if (queryDate && queryDate !== "") {
       setDateDisplay(queryDate);
     }
-    return () => abortController.abort();
-  }
-
-  function loadDashboard() {
-    const abortController = new AbortController();
-    setReservationsError(null);
-    listReservations({ date }, abortController.signal)
-      .then(setReservations)
-      .catch(setReservationsError);
-    listTables(abortController.signal).then(setTables);
     return () => abortController.abort();
   }
 
