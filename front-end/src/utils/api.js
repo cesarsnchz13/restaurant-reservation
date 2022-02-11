@@ -59,7 +59,7 @@ async function fetchJson(url, options, onCancel) {
  */
 
 export async function listReservations(params, signal) {
-  const url = `${API_BASE_URL}/reservations`;
+  const url = new URL(`${API_BASE_URL}/reservations`);
   Object.entries(params).forEach(([key, value]) =>
     url.searchParams.append(key, value.toString())
   );
@@ -79,7 +79,7 @@ export async function createReservation(data, signal) {
   return await fetchJson(url, options);
 }
 
-export async function listReservations(signal) {
+export async function listTables(signal) {
   const url = `${API_BASE_URL}/tables`;
   const options = {
     method: "GET",

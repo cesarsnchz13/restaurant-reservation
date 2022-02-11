@@ -1,19 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { listReservations } from "../utils/api";
+import { listReservations, listTables } from "../utils/api";
 import ReservationDetail from "./ReservationDetail";
+import TableDetail from "./TableDetail";
 import { previous, next, today } from "../utils/date-time";
 import useQuery from "../utils/useQuery";
 // import { Link, useRouteMatch } from "react-router-dom";
 import ErrorAlert from "../layout/ErrorAlert";
-import { fakeData, fakeTables } from "./FakeData";
+//import { fakeData, fakeTables } from "./FakeData";
 
 function Dashboard({ date }) {
   const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
   const [dateDisplay, setDateDisplay] = useState(date);
+  const [tables, setTables] = useState([]);
   const query = useQuery();
   const queryDate = query.get("date");
   date = dateDisplay;
+
   useEffect(loadDashboard, [date]);
   useEffect(changeDates, [date, queryDate]);
 
@@ -33,6 +36,7 @@ function Dashboard({ date }) {
     listReservations({ date }, abortController.signal)
       .then(setReservations)
       .catch(setReservationsError);
+    listTables(abortController.signal).then(setTables);
     return () => abortController.abort();
   }
 
@@ -81,7 +85,8 @@ function Dashboard({ date }) {
         <h4 className="mb-0">Reservations for {dateDisplay}</h4>
       </div>
       <ErrorAlert error={reservationsError} />
-      <ReservationDetail reservations={fakeData} tables={fakeTables} />
+      <ReservationDetail reservations={reservations} tables={tables} />
+      <TableDetail tables={tables} />
     </main>
   );
 }

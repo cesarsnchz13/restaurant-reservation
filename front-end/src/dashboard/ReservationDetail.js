@@ -43,42 +43,9 @@ function ReservationDetail({ reservations, tables }) {
     );
   });
 
-  const tableList = tables.map((table) => {
-    let statusMessage = "Open";
-    if (table.status === "free") {
-      return (
-        <div
-          class="card text-white bg-success mb-3"
-          style={{ maxWidth: "18rem" }}
-        >
-          <div class="card-header">{table.table_name}</div>
-          <div class="card-body">
-            <h5 class="card-title">Status: {statusMessage}</h5>
-            <p class="card-text">Capacity: {table.capacity}</p>
-          </div>
-        </div>
-      );
-    } else {
-      statusMessage = "Occupied";
-      return (
-        <div
-          class="card text-white bg-secondary mb-3"
-          style={{ maxWidth: "18rem" }}
-        >
-          <div class="card-header">{table.table_name}</div>
-          <div class="card-body">
-            <h5 class="card-title">Status: {statusMessage}</h5>
-            <p class="card-text">Capacity: {table.capacity}</p>
-          </div>
-        </div>
-      );
-    }
-  });
-
   return (
     <>
       <div>{reservationList}</div>
-      <div>{tableList}</div>
     </>
   );
 }
