@@ -5,6 +5,7 @@ import { previous, next, today } from "../utils/date-time";
 import useQuery from "../utils/useQuery";
 // import { Link, useRouteMatch } from "react-router-dom";
 import ErrorAlert from "../layout/ErrorAlert";
+import { fakeData, fakeTables } from "./FakeData";
 
 function Dashboard({ date }) {
   const [reservations, setReservations] = useState([]);
@@ -80,7 +81,7 @@ function Dashboard({ date }) {
         <h4 className="mb-0">Reservations for {dateDisplay}</h4>
       </div>
       <ErrorAlert error={reservationsError} />
-      <ReservationDetail reservations={reservations} />
+      <ReservationDetail reservations={fakeData} tables={fakeTables} />
     </main>
   );
 }

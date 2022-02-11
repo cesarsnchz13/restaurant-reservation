@@ -1,6 +1,7 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-function ReservationDetail({ reservations }) {
+function ReservationDetail({ reservations, tables }) {
   function show12HourTime(time) {
     let newTime = time.match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/);
     if (newTime.length > 1) {
@@ -11,8 +12,8 @@ function ReservationDetail({ reservations }) {
     newTime.splice(3, 1, " ");
     return newTime.join("");
   }
+
   const reservationList = reservations.map((res) => {
-    console.log(`Reservation set for ${res.reservation_date}`);
     return (
       <div
         key={res.reservation_id}
@@ -31,11 +32,55 @@ function ReservationDetail({ reservations }) {
           </p>
           <p className="card-text">Party of {`${res.people}`}</p>
         </div>
+        <Link
+          type="button"
+          className="btn btn-info"
+          to={`/reservations/${res.reservation_id}/seat`}
+        >
+          Seat
+        </Link>
       </div>
     );
   });
 
-  return <>{reservationList}</>;
+  const tableList = tables.map((table) => {
+    let statusMessage = "Open";
+    if (table.status === "free") {
+      return (
+        <div
+          class="card text-white bg-success mb-3"
+          style={{ maxWidth: "18rem" }}
+        >
+          <div class="card-header">{table.table_name}</div>
+          <div class="card-body">
+            <h5 class="card-title">Status: {statusMessage}</h5>
+            <p class="card-text">Capacity: {table.capacity}</p>
+          </div>
+        </div>
+      );
+    } else {
+      statusMessage = "Occupied";
+      return (
+        <div
+          class="card text-white bg-secondary mb-3"
+          style={{ maxWidth: "18rem" }}
+        >
+          <div class="card-header">{table.table_name}</div>
+          <div class="card-body">
+            <h5 class="card-title">Status: {statusMessage}</h5>
+            <p class="card-text">Capacity: {table.capacity}</p>
+          </div>
+        </div>
+      );
+    }
+  });
+
+  return (
+    <>
+      <div>{reservationList}</div>
+      <div>{tableList}</div>
+    </>
+  );
 }
 
 export default ReservationDetail;

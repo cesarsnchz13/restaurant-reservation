@@ -50,3 +50,21 @@ export const fakeData = [
     updated_at: "2020-12-10T08:31:32.326Z",
   },
 ];
+
+export const fakeTables = [
+  {
+    table_name: "Table Name 1",
+    capacity: 5,
+    status: "occupied",
+  },
+  {
+    table_name: "Table Name 2",
+    capacity: 5,
+    status: "free",
+  },
+  {
+    table_name: "Table Name 3",
+    capacity: 5,
+    status: "occupied",
+  },
+];
