@@ -111,3 +111,13 @@ export async function seatReservation(reservation_id, tableId, signal) {
   };
   return await fetchJson(url, options);
 }
+
+export async function readReservation(reservationId, signal) {
+  const url = `${API_BASE_URL}/reservations/${reservationId}`;
+  const options = {
+    method: "GET",
+    headers,
+    signal,
+  };
+  return await fetchJson(url, options);
+}

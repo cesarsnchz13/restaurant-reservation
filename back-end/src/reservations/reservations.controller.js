@@ -59,7 +59,6 @@ async function hasValidDayAndTime(req, res, next) {
   const date = new Date(`${data.reservation_date} ${data.reservation_time}`);
   const dayOfWeek = date.getDay();
   const requestedTime = data.reservation_time;
-  console.log("day of week is: ", dayOfWeek);
 
   //IF BOOKING DATE IS ON TUESDAY
   if (dayOfWeek === 2) {
@@ -92,6 +91,12 @@ async function list(req, res) {
   res.json({ data: data });
 }
 
+async function read(req, res) {
+  const reservation_Id = req.params.reservation_Id;
+  const data = await service.read(reservation_Id);
+  res.json({ data });
+}
+
 async function create(req, res) {
   const newReservation = req.body.data;
   const data = await service.create(newReservation);
@@ -105,4 +110,5 @@ module.exports = {
     asyncErrorBoundary(hasValidDayAndTime),
     asyncErrorBoundary(create),
   ],
+  read: [asyncErrorBoundary(read)],
 };

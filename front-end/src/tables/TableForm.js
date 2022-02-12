@@ -21,33 +21,19 @@ function TableForm({ formData, setFormData, submitHandler, cancelHandler }) {
 
         <div className="form-group">
           <label htmlFor="capacity">Capacity</label>
-          <select
-            multiple
+          <input
+            type="number"
             className="form-control"
             id="capacity"
             name="capacity"
+            min="1"
             onChange={(e) => {
               setFormData({
                 table_name: formData.table_name,
                 capacity: Number(e.target.value),
               });
             }}
-          >
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>6</option>
-            <option>7</option>
-            <option>8</option>
-            <option>9</option>
-            <option>10</option>
-            <option>11</option>
-            <option>12</option>
-            <option>13</option>
-            <option>14</option>
-            <option>15</option>
-          </select>
+          ></input>
         </div>
         <button
           type="submit"

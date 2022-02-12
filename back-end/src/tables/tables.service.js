@@ -19,8 +19,13 @@ async function update(updatedTable) {
     .then((updatedRecord) => updatedRecord[0]);
 }
 
+function read(table_id) {
+  return knex("tables").select("*").where({ table_id: table_id }).first();
+}
+
 module.exports = {
   list,
   create,
   update,
+  read,
 };
