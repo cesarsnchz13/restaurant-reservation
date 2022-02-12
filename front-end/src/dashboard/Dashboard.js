@@ -21,12 +21,17 @@ function Dashboard({ date }) {
     listReservations({ date }, abortController.signal)
       .then(setReservations)
       .catch(setReservationsError);
-    listTables(abortController.signal).then(setTables);
     return () => abortController.abort();
   }, [date]);
 
+  useEffect(loadTables, []);
   useEffect(changeDates, [date, queryDate]);
 
+  function loadTables() {
+    const abortController = new AbortController();
+    listTables(abortController.signal).then(setTables);
+    return () => abortController.abort();
+  }
   function changeDates() {
     const abortController = new AbortController();
     if (!queryDate) {

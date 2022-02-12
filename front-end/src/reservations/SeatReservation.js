@@ -57,18 +57,19 @@ function SeatReservation() {
           <div className="input-group">
             <select
               className="custom-select"
-              id="inputGroupSelect04"
+              id="table_id"
+              name="table_id"
               onChange={(e) => {
                 setTableId(Number(e.target.value));
               }}
             >
-              <option defaultValue>Choose Table</option>
+              <option value="default">Choose Table</option>
               {tableOptions}
             </select>
             <div className="input-group-append">
               <button
                 className="btn btn-outline-secondary"
-                type="button"
+                type="submit"
                 onClick={clickHandler}
               >
                 Seat Guest

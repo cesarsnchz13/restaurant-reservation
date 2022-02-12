@@ -1,5 +1,3 @@
-import React from "react";
-
 function TableDetail({ tables }) {
   const tableList = tables.map((table) => {
     let statusMessage = "Open";
