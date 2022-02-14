@@ -55,6 +55,7 @@ async function hasValidPropertyFields(req, res, next) {
 
 async function tableExists(req, res, next) {
   const tableId = req.params.table_id;
+  console.log("TABLE ID!!!", req.body.data, tableId);
   const table = await service.read(tableId);
   if (table) {
     res.locals.table = table;
@@ -64,7 +65,7 @@ async function tableExists(req, res, next) {
 }
 
 async function reservationExists(req, res, next) {
-  console.log("REQ BODY", req.body.data);
+  console.log("REQ BODY!!!!!!!!!!!!!", req.body.data);
   const resId = req.body.data.reservation_id;
   if (!req.body.data.reservation_id) {
     next({ status: 400, message: `Requires reservation_id` });
@@ -89,6 +90,15 @@ async function hasValidTable(req, res, next) {
     next({ status: 400, message: "This table is occupied" });
   }
   next();
+}
+
+async function tableIsOccupied(req, res, next) {
+  const table = res.locals.table;
+  if (table.reservation_id) {
+    next();
+  } else {
+    next({ status: 400, message: "This table is not occupied" });
+  }
 }
 
 //CRUD OPERATIONS
@@ -120,6 +130,16 @@ async function update(req, res) {
   res.json({ data: data });
 }
 
+async function finishTable(req, res) {
+  const updatedTable = {
+    ...res.locals.table,
+    reservation_id: null,
+    status: "free",
+  };
+  const data = await service.update(updatedTable);
+  res.status(200).json({ data: data });
+}
+
 module.exports = {
   list: [asyncErrorBoundary(list)],
   create: [
@@ -133,4 +153,9 @@ module.exports = {
     asyncErrorBoundary(update),
   ],
   read: [asyncErrorBoundary(tableExists), asyncErrorBoundary(read)],
+  delete: [
+    asyncErrorBoundary(tableExists),
+    tableIsOccupied,
+    asyncErrorBoundary(finishTable),
+  ],
 };

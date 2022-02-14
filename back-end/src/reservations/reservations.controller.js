@@ -86,7 +86,11 @@ async function hasValidDayAndTime(req, res, next) {
 }
 
 async function list(req, res) {
-  const date = req.query.date;
+  let date = req.query.date;
+  console.log("date REQUEST: ", date);
+  console.log("req.query: ", req.query.dateDisplay);
+  if (!date) date = req.query.dateDisplay;
+  console.log("date REQUEST: ", date);
   const data = await service.listByDate(date);
   res.json({ data: data });
 }

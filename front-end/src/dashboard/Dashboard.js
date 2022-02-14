@@ -5,28 +5,35 @@ import TableDetail from "./TableDetail";
 import { previous, next, today } from "../utils/date-time";
 import useQuery from "../utils/useQuery";
 import ErrorAlert from "../layout/ErrorAlert";
+import { finishTable } from "../utils/api";
 
 function Dashboard({ date }) {
   const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
   const [dateDisplay, setDateDisplay] = useState(date);
   const [tables, setTables] = useState([]);
-  const query = useQuery();
-  const queryDate = query.get("date");
-  date = dateDisplay;
 
+  let query = useQuery();
+  let queryDate = query.get("date");
+
+  useEffect(loadDashboard, [dateDisplay]);
+  useEffect(changeDates, [date, dateDisplay]);
+  useEffect(loadTables, []);
   useEffect(() => {
+    if (queryDate) {
+      setDateDisplay(queryDate);
+    }
+  }, [queryDate]);
+
+  function loadDashboard() {
     const abortController = new AbortController();
     setReservationsError(null);
-    listReservations({ date }, abortController.signal)
+
+    listReservations({ dateDisplay }, abortController.signal)
       .then(setReservations)
       .catch(setReservationsError);
     return () => abortController.abort();
-  }, [date]);
-
-  useEffect(loadTables, []);
-  useEffect(changeDates, [date, queryDate]);
-
+  }
   function loadTables() {
     const abortController = new AbortController();
     listTables(abortController.signal).then(setTables);
@@ -34,10 +41,10 @@ function Dashboard({ date }) {
   }
   function changeDates() {
     const abortController = new AbortController();
-    if (!queryDate) {
+    if (!dateDisplay) {
       setDateDisplay(date);
-    } else if (queryDate && queryDate !== "") {
-      setDateDisplay(queryDate);
+    } else if (dateDisplay && dateDisplay !== "") {
+      setDateDisplay(dateDisplay);
     }
     return () => abortController.abort();
   }
@@ -55,6 +62,22 @@ function Dashboard({ date }) {
   const nextClickHandler = (e) => {
     e.preventDefault();
     setDateDisplay(next);
+  };
+
+  const finishHandler = async (table) => {
+    const abortController = new AbortController();
+    try {
+      if (window.confirm("Is this table ready to seat new guests?")) {
+        await finishTable(table, abortController.signal);
+        loadTables();
+      }
+    } catch (err) {
+      if (err.name !== "AbortError") {
+        setReservationsError(err);
+      }
+    }
+    loadTables();
+    return () => abortController.abort();
   };
 
   return (
@@ -88,7 +111,7 @@ function Dashboard({ date }) {
       </div>
       <ErrorAlert error={reservationsError} />
       <ReservationDetail reservations={reservations} tables={tables} />
-      <TableDetail tables={tables} />
+      <TableDetail tables={tables} finishHandler={finishHandler} />
     </main>
   );
 }
