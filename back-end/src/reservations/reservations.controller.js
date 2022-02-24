@@ -8,7 +8,6 @@ const requiredProperties = [
   "reservation_date",
   "reservation_time",
   "people",
-  "status",
 ];
 
 const dateFormat = /[0-9]{4}-[0-9]{2}-[0-9]{2}/;
@@ -53,7 +52,7 @@ async function hasValidPropertyFields(req, res, next) {
     });
   }
   //IF status is only "booked"
-  if (data.status !== "booked") {
+  if (data.status === "seated" || data.status === "finished") {
     return next({
       status: 400,
       message: `status cannot be ${data.status}`,

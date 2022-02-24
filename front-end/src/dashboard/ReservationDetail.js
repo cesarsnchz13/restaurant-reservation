@@ -39,7 +39,9 @@ function ReservationDetail({ reservations }) {
       >
         <div className="card-header">{`Reservation ID: ${res.reservation_id}`}</div>
         <div className="card-body">
-          <h5>Status: {status}</h5>
+          <h5 data-reservation-id-status={res.reservation_id}>
+            Status: {status} {res.reservation_id}
+          </h5>
           <h6 className="card-title">
             Guest Name: {`${res.first_name} ${res.last_name}`}
           </h6>

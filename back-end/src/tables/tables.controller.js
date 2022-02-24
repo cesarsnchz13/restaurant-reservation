@@ -55,7 +55,6 @@ async function hasValidPropertyFields(req, res, next) {
 
 async function tableExists(req, res, next) {
   const tableId = req.params.table_id;
-  console.log("TABLE ID!!!", req.body.data, tableId);
   const table = await service.read(tableId);
   if (table) {
     res.locals.table = table;
@@ -65,7 +64,6 @@ async function tableExists(req, res, next) {
 }
 
 async function reservationExists(req, res, next) {
-  console.log("REQ BODY!!!!!!!!!!!!!", req.body.data);
   const resId = req.body.data.reservation_id;
   if (!req.body.data.reservation_id) {
     next({ status: 400, message: `Requires reservation_id` });
@@ -76,6 +74,14 @@ async function reservationExists(req, res, next) {
     return next();
   }
   next({ status: 404, message: `Reservation ${resId} not found` });
+}
+
+function reservationNotSeated(req, res, next) {
+  const status = res.locals.reservation.status;
+  if (status === "seated") {
+    next({ status: 400, message: "This reservation is already seated" });
+  }
+  next();
 }
 
 async function hasValidTable(req, res, next) {
@@ -121,7 +127,6 @@ async function create(req, res) {
 }
 
 async function update(req, res) {
-  console.log("req");
   const updatedTable = {
     table_id: req.params.table_id,
     reservation_id: req.body.data.reservation_id,
@@ -160,6 +165,7 @@ module.exports = {
   update: [
     hasData,
     asyncErrorBoundary(reservationExists),
+    reservationNotSeated,
     asyncErrorBoundary(hasValidTable),
     asyncErrorBoundary(update),
   ],

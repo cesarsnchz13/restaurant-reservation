@@ -24,7 +24,7 @@ function Dashboard({ date }) {
       setDateDisplay(queryDate);
     }
   }, [queryDate]);
-  console.log("reservations: ", reservations[1]);
+
   function loadDashboard() {
     const abortController = new AbortController();
     setReservationsError(null);
@@ -70,7 +70,7 @@ function Dashboard({ date }) {
       if (window.confirm("Is this table ready to seat new guests?")) {
         await finishTable(table, abortController.signal);
         loadTables();
-        //loadDashboard();
+        loadDashboard();
       }
     } catch (err) {
       if (err.name !== "AbortError") {
