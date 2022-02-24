@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-function ReservationDetail({ reservations, tables }) {
+function ReservationDetail({ reservations }) {
   function show12HourTime(time) {
     let newTime = time.match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/);
     if (newTime.length > 1) {
@@ -14,6 +14,23 @@ function ReservationDetail({ reservations, tables }) {
   }
 
   const reservationList = reservations.map((res) => {
+    let status = res.status === "booked" ? "Booked" : "Seated";
+    if (res.status === "finished") status = "Finished";
+    const showSeatButton = () => {
+      if (res.status === "booked") {
+        return (
+          <>
+            <Link
+              type="button"
+              className="btn btn-info"
+              to={`/reservations/${res.reservation_id}/seat`}
+            >
+              Seat
+            </Link>
+          </>
+        );
+      } else return null;
+    };
     return (
       <div
         key={res.reservation_id}
@@ -22,9 +39,10 @@ function ReservationDetail({ reservations, tables }) {
       >
         <div className="card-header">{`Reservation ID: ${res.reservation_id}`}</div>
         <div className="card-body">
-          <h5 className="card-title">
+          <h5>Status: {status}</h5>
+          <h6 className="card-title">
             Guest Name: {`${res.first_name} ${res.last_name}`}
-          </h5>
+          </h6>
           <p className="card-text">Mobile Number: {`${res.mobile_number}`}</p>
           <p className="card-text">Date: {`${res.reservation_date}`}</p>
           <p className="card-text">
@@ -32,13 +50,7 @@ function ReservationDetail({ reservations, tables }) {
           </p>
           <p className="card-text">Party of {`${res.people}`}</p>
         </div>
-        <Link
-          type="button"
-          className="btn btn-info"
-          to={`/reservations/${res.reservation_id}/seat`}
-        >
-          Seat
-        </Link>
+        {showSeatButton()}
       </div>
     );
   });

@@ -121,11 +121,17 @@ async function create(req, res) {
 }
 
 async function update(req, res) {
+  console.log("req");
   const updatedTable = {
     table_id: req.params.table_id,
     reservation_id: req.body.data.reservation_id,
     status: "occupied",
   };
+  const updatedReservationStatus = {
+    reservation_id: req.body.data.reservation_id,
+    status: "seated",
+  };
+  await reservationService.update(updatedReservationStatus);
   const data = await service.update(updatedTable);
   res.json({ data: data });
 }
@@ -136,6 +142,11 @@ async function finishTable(req, res) {
     reservation_id: null,
     status: "free",
   };
+  const updatedReservationStatus = {
+    reservation_id: res.locals.table.reservation_id,
+    status: "finished",
+  };
+  await reservationService.update(updatedReservationStatus);
   const data = await service.update(updatedTable);
   res.status(200).json({ data: data });
 }

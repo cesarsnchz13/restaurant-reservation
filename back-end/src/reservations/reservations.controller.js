@@ -8,6 +8,7 @@ const requiredProperties = [
   "reservation_date",
   "reservation_time",
   "people",
+  "status",
 ];
 
 const dateFormat = /[0-9]{4}-[0-9]{2}-[0-9]{2}/;
@@ -51,6 +52,13 @@ async function hasValidPropertyFields(req, res, next) {
       message: `reservation_time is not formatted correctly`,
     });
   }
+  //IF status is only "booked"
+  if (data.status !== "booked") {
+    return next({
+      status: 400,
+      message: `status cannot be ${data.status}`,
+    });
+  }
   next();
 }
 
@@ -85,12 +93,35 @@ async function hasValidDayAndTime(req, res, next) {
   next();
 }
 
+async function validId(req, res, next) {
+  const resId = req.params.reservation_Id;
+  const data = await service.read(resId);
+  res.locals.reservation = data;
+  if (!data) {
+    next({ status: 404, message: `Reservation ID:${resId} not found` });
+  }
+  next();
+}
+
+function validStatus(req, res, next) {
+  const newStatus = req.body.data.status;
+  const currentStatus = res.locals.reservation.status;
+  if (
+    newStatus !== "booked" &&
+    newStatus !== "seated" &&
+    newStatus !== "finished"
+  ) {
+    next({ status: 400, message: `Cannot update and unknown status` });
+  }
+  if (currentStatus === "finished") {
+    next({ status: 400, message: "Cannot update a finished reservation" });
+  }
+  next();
+}
+
 async function list(req, res) {
   let date = req.query.date;
-  console.log("date REQUEST: ", date);
-  console.log("req.query: ", req.query.dateDisplay);
   if (!date) date = req.query.dateDisplay;
-  console.log("date REQUEST: ", date);
   const data = await service.listByDate(date);
   res.json({ data: data });
 }
@@ -107,6 +138,13 @@ async function create(req, res) {
   res.status(201).json({ data });
 }
 
+async function updateStatus(req, res) {
+  const newStatus = req.body.data.status;
+  const updatedReservation = { ...res.locals.reservation, status: newStatus };
+  const data = await service.update(updatedReservation);
+  res.status(200).json({ data: data });
+}
+
 module.exports = {
   list: [asyncErrorBoundary(list)],
   create: [
@@ -115,4 +153,9 @@ module.exports = {
     asyncErrorBoundary(create),
   ],
   read: [asyncErrorBoundary(read)],
+  updateStatus: [
+    asyncErrorBoundary(validId),
+    validStatus,
+    asyncErrorBoundary(updateStatus),
+  ],
 };
