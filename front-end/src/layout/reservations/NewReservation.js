@@ -1,15 +1,19 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import ErrorAlert from "../layout/ErrorAlert";
-import { createTable } from "../utils/api";
-import TableForm from "./TableForm";
+import ErrorAlert from "../ErrorAlert";
+import ReservationForm from "./ReservationForm";
+import { createReservation } from "../../utils/api";
 
-function NewTable() {
+function NewReservation() {
   const history = useHistory();
 
   const initialFormState = {
-    table_name: "",
-    capacity: 0,
+    first_name: "",
+    last_name: "",
+    mobile_number: "",
+    reservation_date: "",
+    reservation_time: "",
+    people: "",
   };
 
   const [formData, setFormData] = useState(initialFormState);
@@ -21,11 +25,9 @@ function NewTable() {
     setError(null);
 
     try {
-      await createTable(formData); // use try and catch so that if there is an error, it will display the error message
-      history.push(`/dashboard`);
+      await createReservation(formData); // use try and catch so that if there is an error, it will display the error message
+      history.push(`/dashboard/?date=${formData.reservation_date}`);
     } catch (err) {
-      console.log(formData);
-      console.log("error says: ", err);
       setError(err);
     }
     return () => abortController.abort();
@@ -41,8 +43,8 @@ function NewTable() {
       <div>
         <ErrorAlert error={error} />
       </div>
-      <h2>Add a New Table</h2>
-      <TableForm
+      <h2>Add New Reservation</h2>
+      <ReservationForm
         formData={formData}
         setFormData={setFormData}
         submitHandler={submitHandler}
@@ -52,4 +54,4 @@ function NewTable() {
   );
 }
 
-export default NewTable;
+export default NewReservation;

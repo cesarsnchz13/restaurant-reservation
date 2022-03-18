@@ -2,11 +2,11 @@ import React from "react";
 
 import { Redirect, Route, Switch } from "react-router-dom";
 import Dashboard from "../dashboard/Dashboard";
-import NewReservation from "../reservations/NewReservation";
-import SeatReservation from "../reservations/SeatReservation";
-import ReservationSearch from "../reservations/ReservationSearch";
+import NewReservation from "./reservations/NewReservation";
+import SeatReservation from "./reservations/SeatReservation";
+import ReservationSearch from "./reservations/ReservationSearch";
 import NotFound from "./NotFound";
-import NewTable from "../tables/NewTable";
+import NewTable from "./tables/NewTable";
 import { today } from "../utils/date-time";
 
 /**
