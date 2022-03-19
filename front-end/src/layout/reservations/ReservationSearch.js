@@ -7,8 +7,6 @@ function ReservationSearch() {
   const [guestList, setGuestList] = useState([]);
   const [searchedNumber, setSearchedNumber] = useState({ mobile_number: "" });
   const [errors, setErrors] = useState(null);
-  console.log("formData: ", searchedNumber);
-  console.log("guestList: ", guestList);
 
   const handleChange = (event) => {
     event.preventDefault();
@@ -77,7 +75,7 @@ function ReservationSearch() {
             <div className="col-auto">
               <button
                 onClick={handleSubmit}
-                type="button"
+                type="submit"
                 className="btn btn-primary mb-2"
               >
                 Find

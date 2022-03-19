@@ -30,6 +30,7 @@ async function hasValidPropertyFields(req, res, next) {
       });
     }
   });
+
   //IF people PROPERTY IS NOT A NUMBER
   if (!Number.isInteger(data.people)) {
     return next({
@@ -37,6 +38,7 @@ async function hasValidPropertyFields(req, res, next) {
       message: `people must be a number`,
     });
   }
+
   //IF reservation_date FORMAT IS INCORRECT
   if (!dateFormat.test(data.reservation_date)) {
     return next({
@@ -44,6 +46,7 @@ async function hasValidPropertyFields(req, res, next) {
       message: `reservation_date is not formatted correctly`,
     });
   }
+
   //IF reservation_time FORMAT IS INCORRECT
   if (!timeFormat.test(data.reservation_time)) {
     return next({
@@ -51,6 +54,7 @@ async function hasValidPropertyFields(req, res, next) {
       message: `reservation_time is not formatted correctly`,
     });
   }
+
   //IF status is only "booked"
   if (data.status === "seated" || data.status === "finished") {
     return next({
@@ -82,6 +86,7 @@ async function hasValidDayAndTime(req, res, next) {
       message: "Reservations must be booked for a future time or date",
     });
   }
+
   //IF BOOKING TIME IS DURING CLOSED HOURS
   if (requestedTime <= "10:30" || requestedTime >= "21:30") {
     return next({
@@ -119,9 +124,24 @@ function validStatus(req, res, next) {
 }
 
 async function list(req, res) {
-  let date = req.query.date;
-  if (!date) date = req.query.dateDisplay;
-  const data = await service.listByDate(date);
+  let { date, mobile_number } = req.query;
+  if (date) {
+    const data = await service.listByDate(date);
+    res.json({ data: data });
+  } else if (mobile_number) {
+    const data = await service.searchPhoneNumber(mobile_number);
+    res.json({ data: data });
+  } else if (!date) {
+    date = req.query.dateDisplay;
+    const data = await service.listByDate(date);
+    res.json({ data: data });
+  }
+}
+
+async function listSearchedReservations(req, res) {
+  let { mobile_number } = req.query;
+  console.log("Reservation Search Query - Phone Number", mobile_number);
+  const data = await service.searchPhoneNumber();
   res.json({ data: data });
 }
 
@@ -151,7 +171,7 @@ module.exports = {
     asyncErrorBoundary(hasValidDayAndTime),
     asyncErrorBoundary(create),
   ],
-  read: [asyncErrorBoundary(read)],
+  read: [asyncErrorBoundary(validId), asyncErrorBoundary(read)],
   updateStatus: [
     asyncErrorBoundary(validId),
     validStatus,
