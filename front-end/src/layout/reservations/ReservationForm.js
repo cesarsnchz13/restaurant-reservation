@@ -4,6 +4,8 @@ function ReservationForm({
   submitHandler,
   cancelHandler,
 }) {
+  const formattedDate = formData.reservation_date.slice(0, 10);
+
   return (
     <>
       <form>
@@ -22,7 +24,7 @@ function ReservationForm({
                     first_name: e.target.value,
                     last_name: formData.last_name,
                     mobile_number: formData.mobile_number,
-                    reservation_date: formData.reservation_date,
+                    reservation_date: formattedDate,
                     reservation_time: formData.reservation_time,
                     people: formData.people,
                   })
@@ -42,7 +44,7 @@ function ReservationForm({
                     first_name: formData.first_name,
                     last_name: e.target.value,
                     mobile_number: formData.mobile_number,
-                    reservation_date: formData.reservation_date,
+                    reservation_date: formattedDate,
                     reservation_time: formData.reservation_time,
                     people: formData.people,
                   })
@@ -70,7 +72,7 @@ function ReservationForm({
                   first_name: formData.first_name,
                   last_name: formData.last_name,
                   mobile_number: e.target.value,
-                  reservation_date: formData.reservation_date,
+                  reservation_date: formattedDate,
                   reservation_time: formData.reservation_time,
                   people: formData.people,
                 });
@@ -97,7 +99,7 @@ function ReservationForm({
                   people: formData.people,
                 })
               }
-              value={formData.reservation_date}
+              value={formattedDate}
             />
           </div>
           <div className="form-group">
@@ -114,7 +116,7 @@ function ReservationForm({
                   first_name: formData.first_name,
                   last_name: formData.last_name,
                   mobile_number: formData.mobile_number,
-                  reservation_date: formData.reservation_date,
+                  reservation_date: formattedDate,
                   reservation_time: e.target.value,
                   people: formData.people,
                 });
@@ -134,7 +136,7 @@ function ReservationForm({
                   first_name: formData.first_name,
                   last_name: formData.last_name,
                   mobile_number: formData.mobile_number,
-                  reservation_date: formData.reservation_date,
+                  reservation_date: formattedDate,
                   reservation_time: formData.reservation_time,
                   people: parseInt(e.target.value),
                 })

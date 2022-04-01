@@ -1,11 +1,14 @@
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useHistory, useParams } from "react-router-dom";
 import ErrorAlert from "../ErrorAlert";
 import ReservationForm from "./ReservationForm";
-// import { editReservation } from "../../utils/api";
+import { readReservation } from "../../utils/api";
+
+//TODO: Needs to properly make the PUT request so that it edits the reservation data.
 
 function EditReservation() {
   const history = useHistory();
+  const { reservation_id } = useParams();
 
   const initialFormState = {
     first_name: "",
@@ -18,6 +21,19 @@ function EditReservation() {
 
   const [formData, setFormData] = useState(initialFormState);
   const [error, setError] = useState(null);
+
+  useEffect(() => {
+    function loadReservation() {
+      const abortController = new AbortController();
+      setError(null);
+
+      readReservation(reservation_id, abortController.signal)
+        .then(setFormData)
+        .catch(setError);
+      return () => abortController.abort();
+    }
+    loadReservation();
+  }, [reservation_id]);
 
   const submitHandler = async (e) => {
     const abortController = new AbortController();

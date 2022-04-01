@@ -1,5 +1,6 @@
 const dateFormat = /\d\d\d\d-\d\d-\d\d/;
 const timeFormat = /\d\d:\d\d/;
+const fieldDateFormat = /\d\d-\d\d-\d\d\d\d/;
 
 /**
  * Formats a Date object as YYYY-MM-DD.
@@ -27,6 +28,10 @@ function asDateString(date) {
  */
 export function formatAsDate(dateString) {
   return dateString.match(dateFormat)[0];
+}
+
+export function formatAsDateForField(dateString) {
+  return dateString.match(fieldDateFormat)[0];
 }
 
 /**
