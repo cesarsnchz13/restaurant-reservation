@@ -3,6 +3,15 @@ import { Link } from "react-router-dom";
 import { show12HourTime } from "../../utils/date-time";
 
 function ReservationDetail({ reservations }) {
+  const cancelHandler = () => {
+    if (
+      window.confirm(
+        `Do you want to cancel this reservation? This cannot be undone.`
+      )
+    ) {
+      console.log("CANCELLED!");
+    }
+  };
   const reservationList = reservations.map((res) => {
     let status = res.status === "booked" ? "Booked" : "Seated";
     if (res.status === "finished") status = "Finished";
@@ -50,6 +59,14 @@ function ReservationDetail({ reservations }) {
           <p className="card-text">Party of {`${res.people}`}</p>
         </div>
         {showSeatButton()}
+        <button
+          type="button"
+          className="btn btn-danger"
+          data-reservation-id-cancel={res.reservation_id}
+          onClick={cancelHandler}
+        >
+          Cancel
+        </button>
       </div>
     );
   });
