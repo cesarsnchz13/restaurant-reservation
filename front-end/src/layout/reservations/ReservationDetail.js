@@ -1,18 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { show12HourTime } from "../../utils/date-time";
 
 function ReservationDetail({ reservations }) {
-  function show12HourTime(time) {
-    let newTime = time.match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/);
-    if (newTime.length > 1) {
-      newTime = newTime.slice(1);
-      newTime[5] = +newTime[0] < 12 ? "AM" : "PM";
-      newTime[0] = +newTime[0] % 12 || 12;
-    }
-    newTime.splice(3, 1, " ");
-    return newTime.join("");
-  }
-
   const reservationList = reservations.map((res) => {
     let status = res.status === "booked" ? "Booked" : "Seated";
     if (res.status === "finished") status = "Finished";
@@ -26,6 +16,13 @@ function ReservationDetail({ reservations }) {
               to={`/reservations/${res.reservation_id}/seat`}
             >
               Seat
+            </Link>
+            <Link
+              type="button"
+              className="btn btn-warning"
+              to={`/reservations/${res.reservation_id}/edit`}
+            >
+              Edit
             </Link>
           </>
         );

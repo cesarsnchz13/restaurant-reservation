@@ -86,3 +86,16 @@ export function next(currentDate) {
   date.setDate(date.getDate() + 1);
   return asDateString(date);
 }
+
+// Formats the time to 12 hour time format
+
+export function show12HourTime(time) {
+  let newTime = time.match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/);
+  if (newTime.length > 1) {
+    newTime = newTime.slice(1);
+    newTime[5] = +newTime[0] < 12 ? "AM" : "PM";
+    newTime[0] = +newTime[0] % 12 || 12;
+  }
+  newTime.splice(3, 1, " ");
+  return newTime.join("");
+}
