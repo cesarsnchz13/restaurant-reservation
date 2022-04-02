@@ -81,9 +81,7 @@ export async function createReservation(data, signal) {
 
 export async function editReservation(reservation_id, data, signal) {
   const url = `${API_BASE_URL}/reservations/${reservation_id}`;
-
   const updatedRes = { ...data, reservation_id: reservation_id };
-  console.log("DATA: ", updatedRes);
   const options = {
     method: "PUT",
     headers,
@@ -151,4 +149,17 @@ export async function searchReservations(mobile_number, signal) {
   return await fetchJson(url, { signal })
     .then(formatReservationDate)
     .then(formatReservationTime);
+}
+
+export async function cancelReservation(reservation_id, data, signal) {
+  const url = `${API_BASE_URL}/reservations/${reservation_id}/status`;
+  const updatedRes = { ...data, status: "cancelled" };
+  console.log("DATA: ", updatedRes);
+  const options = {
+    method: "PUT",
+    headers,
+    body: JSON.stringify({ data: updatedRes }),
+    signal,
+  };
+  return await fetchJson(url, options);
 }

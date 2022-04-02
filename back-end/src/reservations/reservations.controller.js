@@ -113,7 +113,8 @@ function validStatus(req, res, next) {
   if (
     newStatus !== "booked" &&
     newStatus !== "seated" &&
-    newStatus !== "finished"
+    newStatus !== "finished" &&
+    newStatus !== "cancelled"
   ) {
     next({ status: 400, message: `Cannot update and unknown status` });
   }
@@ -164,6 +165,7 @@ async function create(req, res) {
 
 async function updateStatus(req, res) {
   const newStatus = req.body.data.status;
+  console.log("WHAT IS THE STATUS?", newStatus);
   const updatedReservation = { ...res.locals.reservation, status: newStatus };
   const data = await service.update(updatedReservation);
   res.status(200).json({ data: data });
