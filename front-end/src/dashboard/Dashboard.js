@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { listReservations, listTables } from "../utils/api";
+import { listReservations, listTables, cancelReservation } from "../utils/api";
 import ReservationDetail from "../layout/reservations/ReservationDetail";
 import TableDetail from "../layout/tables/TableDetail";
 import { previous, next, today } from "../utils/date-time";
@@ -81,6 +81,30 @@ function Dashboard({ date }) {
     return () => abortController.abort();
   };
 
+  const cancelHandler = async (reservation) => {
+    const abortController = new AbortController();
+    const status = { status: "cancelled" };
+
+    try {
+      const confirm = window.confirm(
+        `Do you want to cancel this reservation? This cannot be undone.`
+      );
+      if (confirm) {
+        await cancelReservation(
+          reservation.reservation_id,
+          status,
+          abortController.signal
+        );
+        await loadDashboard();
+      }
+    } catch (error) {
+      if (error.name !== "AbortError") {
+        setReservationsError(error);
+      }
+      return () => abortController.abort();
+    }
+  };
+
   return (
     <main>
       <h1>Dashboard</h1>
@@ -111,7 +135,11 @@ function Dashboard({ date }) {
         <h4 className="mb-0">Reservations for {dateDisplay}</h4>
       </div>
       <ErrorAlert error={reservationsError} />
-      <ReservationDetail reservations={reservations} tables={tables} />
+      <ReservationDetail
+        reservations={reservations}
+        tables={tables}
+        cancelHandler={cancelHandler}
+      />
       <TableDetail tables={tables} finishHandler={finishHandler} />
     </main>
   );

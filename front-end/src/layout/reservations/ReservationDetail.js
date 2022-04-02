@@ -1,20 +1,8 @@
 import React from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { show12HourTime } from "../../utils/date-time";
-import { cancelReservation } from "../../utils/api";
 
-function ReservationDetail({ reservations }) {
-  const history = useHistory();
-  const cancelHandler = async (reservation) => {
-    const confirm = window.confirm(
-      `Do you want to cancel this reservation? This cannot be undone.`
-    );
-    if (confirm) {
-      await cancelReservation(reservation.reservation_id, reservation);
-      history.go(0);
-    }
-  };
-
+function ReservationDetail({ reservations, cancelHandler }) {
   const reservationList = reservations.map((res) => {
     let status = "";
     if (res.status === "booked") status = "Booked";
@@ -44,7 +32,30 @@ function ReservationDetail({ reservations }) {
       } else return null;
     };
 
-    if (res.status === "booked" || res.status === "seated") {
+    const showCancelButton = () => {
+      if (res.status !== "cancelled") {
+        return (
+          <>
+            <button
+              data-reservation-id-cancel={res.reservation_id}
+              type="button"
+              className="btn btn-danger"
+              onClick={(e) => cancelHandler(res)}
+            >
+              Cancel
+            </button>
+          </>
+        );
+      } else {
+        return null;
+      }
+    };
+
+    if (
+      res.status === "booked" ||
+      res.status === "seated" ||
+      res.status === "cancelled"
+    ) {
       return (
         <div
           key={res.reservation_id}
@@ -67,14 +78,7 @@ function ReservationDetail({ reservations }) {
             <p className="card-text">Party of {`${res.people}`}</p>
           </div>
           {showSeatButton()}
-          <button
-            type="button"
-            className="btn btn-danger"
-            data-reservation-id-cancel={res.reservation_id}
-            onClick={() => cancelHandler(res)}
-          >
-            Cancel
-          </button>
+          {showCancelButton()}
         </div>
       );
     } else {

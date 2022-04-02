@@ -151,14 +151,12 @@ export async function searchReservations(mobile_number, signal) {
     .then(formatReservationTime);
 }
 
-export async function cancelReservation(reservation_id, data, signal) {
+export async function cancelReservation(reservation_id, status, signal) {
   const url = `${API_BASE_URL}/reservations/${reservation_id}/status`;
-  const updatedRes = { ...data, status: "cancelled" };
-  console.log("DATA: ", updatedRes);
   const options = {
     method: "PUT",
     headers,
-    body: JSON.stringify({ data: updatedRes }),
+    body: JSON.stringify({ data: status }),
     signal,
   };
   return await fetchJson(url, options);
