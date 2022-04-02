@@ -123,6 +123,18 @@ function validStatus(req, res, next) {
   next();
 }
 
+function bookedStatusOnly(req, res, next) {
+  const status = req.body.data.status;
+  console.log("status!!!: ", status);
+  if (status !== "booked") {
+    next({
+      status: 400,
+      message: "Only seats with 'booked' status can be edited. ",
+    });
+  }
+  next();
+}
+
 async function list(req, res) {
   let { date, mobile_number } = req.query;
   if (date) {
@@ -136,13 +148,6 @@ async function list(req, res) {
     const data = await service.listByDate(date);
     res.json({ data: data });
   }
-}
-
-async function listSearchedReservations(req, res) {
-  let { mobile_number } = req.query;
-  console.log("Reservation Search Query - Phone Number", mobile_number);
-  const data = await service.searchPhoneNumber();
-  res.json({ data: data });
 }
 
 async function read(req, res) {
@@ -163,6 +168,12 @@ async function updateStatus(req, res) {
   const data = await service.update(updatedReservation);
   res.status(200).json({ data: data });
 }
+async function edit(req, res) {
+  const updatedReservation = req.body.data;
+  console.log("LOOK AT ME: ", updatedReservation);
+  const data = await service.update(updatedReservation);
+  res.status(200).json({ data: data });
+}
 
 module.exports = {
   list: [asyncErrorBoundary(list)],
@@ -176,5 +187,12 @@ module.exports = {
     asyncErrorBoundary(validId),
     validStatus,
     asyncErrorBoundary(updateStatus),
+  ],
+  editReservation: [
+    asyncErrorBoundary(validId),
+    asyncErrorBoundary(hasValidPropertyFields),
+    asyncErrorBoundary(hasValidDayAndTime),
+    asyncErrorBoundary(bookedStatusOnly),
+    asyncErrorBoundary(edit),
   ],
 };

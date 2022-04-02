@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import ErrorAlert from "../ErrorAlert";
 import ReservationForm from "./ReservationForm";
-import { readReservation } from "../../utils/api";
+import { readReservation, editReservation } from "../../utils/api";
 
 //TODO: Needs to properly make the PUT request so that it edits the reservation data.
 
@@ -17,10 +17,12 @@ function EditReservation() {
     reservation_date: "",
     reservation_time: "",
     people: "",
+    status: "",
   };
 
   const [formData, setFormData] = useState(initialFormState);
   const [error, setError] = useState(null);
+  console.log("Form Data : ", formData);
 
   useEffect(() => {
     function loadReservation() {
@@ -41,9 +43,8 @@ function EditReservation() {
     setError(null);
 
     try {
-      //   await createReservation(formData); // use try and catch so that if there is an error, it will display the error message
-      //   history.push(`/dashboard/?date=${formData.reservation_date}`);
-      console.log("BUTTON PUSHED!");
+      await editReservation(reservation_id, formData); // use try and catch so that if there is an error, it will display the error message
+      history.push(`/dashboard/?date=${formData.reservation_date}`);
     } catch (err) {
       setError(err);
     }

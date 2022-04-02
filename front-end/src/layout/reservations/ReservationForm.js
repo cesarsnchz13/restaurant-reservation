@@ -27,6 +27,7 @@ function ReservationForm({
                     reservation_date: formattedDate,
                     reservation_time: formData.reservation_time,
                     people: formData.people,
+                    status: formData.status,
                   })
                 }
                 value={formData.first_name}
@@ -47,6 +48,7 @@ function ReservationForm({
                     reservation_date: formattedDate,
                     reservation_time: formData.reservation_time,
                     people: formData.people,
+                    status: formData.status,
                   })
                 }
                 value={formData.last_name}
@@ -75,6 +77,7 @@ function ReservationForm({
                   reservation_date: formattedDate,
                   reservation_time: formData.reservation_time,
                   people: formData.people,
+                  status: formData.status,
                 });
               }}
               maxLength="12"
@@ -97,6 +100,7 @@ function ReservationForm({
                   reservation_date: e.target.value,
                   reservation_time: formData.reservation_time,
                   people: formData.people,
+                  status: formData.status,
                 })
               }
               value={formattedDate}
@@ -119,6 +123,7 @@ function ReservationForm({
                   reservation_date: formattedDate,
                   reservation_time: e.target.value,
                   people: formData.people,
+                  status: formData.status,
                 });
               }}
               value={formData.reservation_time}
@@ -139,6 +144,7 @@ function ReservationForm({
                   reservation_date: formattedDate,
                   reservation_time: formData.reservation_time,
                   people: parseInt(e.target.value),
+                  status: formData.status,
                 })
               }
               min="1"
