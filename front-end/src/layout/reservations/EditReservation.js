@@ -4,8 +4,6 @@ import ErrorAlert from "../ErrorAlert";
 import ReservationForm from "./ReservationForm";
 import { readReservation, editReservation } from "../../utils/api";
 
-//TODO: Needs to properly make the PUT request so that it edits the reservation data.
-
 function EditReservation() {
   const history = useHistory();
   const { reservation_id } = useParams();

@@ -23,9 +23,8 @@ function NewReservation() {
     const abortController = new AbortController();
     e.preventDefault();
     setError(null);
-
     try {
-      await createReservation(formData); // use try and catch so that if there is an error, it will display the error message
+      await createReservation(formData);
       history.push(`/dashboard/?date=${formData.reservation_date}`);
     } catch (err) {
       setError(err);

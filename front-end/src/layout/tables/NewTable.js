@@ -21,7 +21,7 @@ function NewTable() {
     setError(null);
 
     try {
-      await createTable(formData); // use try and catch so that if there is an error, it will display the error message
+      await createTable(formData);
       history.push(`/dashboard`);
     } catch (err) {
       setError(err);
