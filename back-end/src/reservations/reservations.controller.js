@@ -145,7 +145,7 @@ async function list(req, res) {
     const data = await service.searchPhoneNumber(mobile_number);
     res.json({ data: data });
   } else if (!date) {
-    date = req.query.dateDisplay;
+    date = req.query.date;
     const data = await service.listByDate(date);
     res.json({ data: data });
   }

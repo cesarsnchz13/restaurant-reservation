@@ -7,21 +7,21 @@ import useQuery from "../utils/useQuery";
 import ErrorAlert from "../layout/ErrorAlert";
 import { finishTable } from "../utils/api";
 
-function Dashboard({ date }) {
+function Dashboard({ thisDay }) {
   const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
-  const [dateDisplay, setDateDisplay] = useState(date);
+  const [date, setDate] = useState(thisDay);
   const [tables, setTables] = useState([]);
 
   let query = useQuery();
   let queryDate = query.get("date");
 
-  useEffect(loadDashboard, [dateDisplay]);
-  useEffect(changeDates, [date, dateDisplay]);
+  useEffect(loadDashboard, [date]);
+  useEffect(changeDates, [thisDay, date]);
   useEffect(loadTables, []);
   useEffect(() => {
     if (queryDate) {
-      setDateDisplay(queryDate);
+      setDate(queryDate);
     }
   }, [queryDate]);
 
@@ -29,7 +29,7 @@ function Dashboard({ date }) {
     const abortController = new AbortController();
     setReservationsError(null);
 
-    listReservations({ dateDisplay }, abortController.signal)
+    listReservations({ date }, abortController.signal)
       .then(setReservations)
       .catch(setReservationsError);
     return () => abortController.abort();
@@ -41,27 +41,27 @@ function Dashboard({ date }) {
   }
   function changeDates() {
     const abortController = new AbortController();
-    if (!dateDisplay) {
-      setDateDisplay(date);
-    } else if (dateDisplay && dateDisplay !== "") {
-      setDateDisplay(dateDisplay);
+    if (!date) {
+      setDate(thisDay);
+    } else if (date && date !== "") {
+      setDate(date);
     }
     return () => abortController.abort();
   }
 
   const previousClickHandler = (e) => {
     e.preventDefault();
-    setDateDisplay(previous);
+    setDate(previous);
   };
 
   const todayClickHandler = (e) => {
     e.preventDefault();
-    setDateDisplay(today);
+    setDate(today);
   };
 
   const nextClickHandler = (e) => {
     e.preventDefault();
-    setDateDisplay(next);
+    setDate(next);
   };
 
   const finishHandler = async (table) => {
@@ -132,7 +132,7 @@ function Dashboard({ date }) {
         </button>
       </div>
       <div className="d-md-flex mb-3">
-        <h4 className="mb-0">Reservations for {dateDisplay}</h4>
+        <h4 className="mb-0">Reservations for {date}</h4>
       </div>
       <ErrorAlert error={reservationsError} />
       <ReservationDetail
