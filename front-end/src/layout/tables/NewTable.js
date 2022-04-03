@@ -24,8 +24,6 @@ function NewTable() {
       await createTable(formData); // use try and catch so that if there is an error, it will display the error message
       history.push(`/dashboard`);
     } catch (err) {
-      console.log(formData);
-      console.log("error says: ", err);
       setError(err);
     }
     return () => abortController.abort();

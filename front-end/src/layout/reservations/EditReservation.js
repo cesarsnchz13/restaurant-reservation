@@ -22,7 +22,6 @@ function EditReservation() {
 
   const [formData, setFormData] = useState(initialFormState);
   const [error, setError] = useState(null);
-  console.log("Form Data : ", formData);
 
   useEffect(() => {
     function loadReservation() {

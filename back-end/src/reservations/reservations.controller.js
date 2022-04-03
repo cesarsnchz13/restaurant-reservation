@@ -126,7 +126,6 @@ function validStatus(req, res, next) {
 
 function bookedStatusOnly(req, res, next) {
   const status = req.body.data.status;
-  console.log("status!!!: ", status);
   if (status !== "booked") {
     next({
       status: 400,
@@ -165,14 +164,12 @@ async function create(req, res) {
 
 async function updateStatus(req, res) {
   const newStatus = req.body.data.status;
-  console.log("WHAT IS THE STATUS?", newStatus);
   const updatedReservation = { ...res.locals.reservation, status: newStatus };
   const data = await service.update(updatedReservation);
   res.status(200).json({ data: data });
 }
 async function edit(req, res) {
   const updatedReservation = req.body.data;
-  console.log("LOOK AT ME: ", updatedReservation);
   const data = await service.update(updatedReservation);
   res.status(200).json({ data: data });
 }
