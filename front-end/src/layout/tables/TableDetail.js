@@ -30,7 +30,7 @@ function TableDetail({ tables, finishHandler }) {
     } else {
       return (
         <div
-          className="card text-white bg-success mb-3"
+          className="table-card card text-white bg-success mb-3"
           style={{ maxWidth: "18rem" }}
           key={table.table_id}
         >
@@ -45,7 +45,7 @@ function TableDetail({ tables, finishHandler }) {
       );
     }
   });
-  return <>{tableList}</>;
+  return <div className="list">{tableList}</div>;
 }
 
 export default TableDetail;

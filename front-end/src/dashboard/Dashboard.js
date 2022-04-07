@@ -107,7 +107,8 @@ function Dashboard({ thisDay }) {
 
   return (
     <main>
-      <h1>Dashboard</h1>
+      <h1>Table For Tú</h1>
+      <h2>Dashboard</h2>
       <div className="btn-group" role="group" aria-label="Basic example">
         <button
           type="button"
@@ -140,6 +141,7 @@ function Dashboard({ thisDay }) {
         tables={tables}
         cancelHandler={cancelHandler}
       />
+      <h4 className="mb-0">Available Tables</h4>
       <TableDetail tables={tables} finishHandler={finishHandler} />
     </main>
   );

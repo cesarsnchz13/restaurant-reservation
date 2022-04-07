@@ -13,49 +13,36 @@ function ReservationDetail({ reservations, cancelHandler }) {
       if (res.status === "booked") {
         return (
           <>
-            <Link
-              type="button"
-              className="btn btn-info"
-              to={`/reservations/${res.reservation_id}/seat`}
-            >
-              Seat
-            </Link>
-            <Link
-              type="button"
-              className="btn btn-warning"
-              to={`/reservations/${res.reservation_id}/edit`}
-            >
-              Edit
-            </Link>
+            <div class="container p-2 bd-highlight">
+              <Link
+                type="button"
+                className="btn btn-info"
+                to={`/reservations/${res.reservation_id}/seat`}
+              >
+                Seat
+              </Link>
+              <Link
+                type="button"
+                className="btn btn-warning"
+                to={`/reservations/${res.reservation_id}/edit`}
+              >
+                Edit
+              </Link>
+              <button
+                data-reservation-id-cancel={res.reservation_id}
+                type="button"
+                className="btn btn-danger"
+                onClick={(e) => cancelHandler(res)}
+              >
+                Cancel
+              </button>
+            </div>
           </>
         );
       } else return null;
     };
 
-    const showCancelButton = () => {
-      if (res.status !== "cancelled") {
-        return (
-          <>
-            <button
-              data-reservation-id-cancel={res.reservation_id}
-              type="button"
-              className="btn btn-danger"
-              onClick={(e) => cancelHandler(res)}
-            >
-              Cancel
-            </button>
-          </>
-        );
-      } else {
-        return null;
-      }
-    };
-
-    if (
-      res.status === "booked" ||
-      res.status === "seated" ||
-      res.status === "cancelled"
-    ) {
+    if (res.status === "booked" || res.status === "seated") {
       return (
         <div
           key={res.reservation_id}
@@ -65,7 +52,7 @@ function ReservationDetail({ reservations, cancelHandler }) {
           <div className="card-header">{`Reservation ID: ${res.reservation_id}`}</div>
           <div className="card-body">
             <h5 data-reservation-id-status={res.reservation_id}>
-              Status: {status} {res.reservation_id}
+              Status: {status}
             </h5>
             <h6 className="card-title">
               Guest Name: {`${res.first_name} ${res.last_name}`}
@@ -77,8 +64,10 @@ function ReservationDetail({ reservations, cancelHandler }) {
             </p>
             <p className="card-text">Party of {`${res.people}`}</p>
           </div>
-          {showSeatButton()}
-          {showCancelButton()}
+
+          <div class="d-flex flex-row bd-highlight mb-3 justify-content-center">
+            {showSeatButton()}
+          </div>
         </div>
       );
     } else {
@@ -88,7 +77,7 @@ function ReservationDetail({ reservations, cancelHandler }) {
 
   return (
     <>
-      <div>{reservationList}</div>
+      <div className="list">{reservationList}</div>
     </>
   );
 }

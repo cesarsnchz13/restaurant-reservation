@@ -1,4 +1,52 @@
+body {
+  background-image: url(../layout/photos/table-background.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  backdrop-filter: opacity(20%);
+  backdrop-filter: blur(2px);
+  font-family: "Merriweather Sans", sans-serif;
+  text-align: center;
+  color: white;
+}
+h1 {
+  color: red;
+}
+h4 {
+  margin-top: 2%;
+  display: flex;
+  justify-content: flex-start;
+}
 .side-bar {
   background-color: #393a44;
   min-width: 200px;
+  height: 100vh;
+}
+.btn {
+  padding: 5px 15px 5px 15px;
+}
+.container {
+  display: flex;
+  justify-content: space-around;
+}
+.list {
+  margin-top: 2%;
+  display: flex;
+  justify-content: flex-start;
+  flex-flow: row wrap;
+}
+.card {
+  margin: 0 2% 0 0;
+}
+.table-card {
+  height: 200px;
+  width: 200px;
+}
+
+@media only screen and (max-width: 800px) {
+  body {
+    background-size: 100% 100%;
+  }
+  .side-bar {
+    height: 30vh;
+  }
 }
