@@ -26,6 +26,7 @@ p {
 }
 .btn {
   padding: 5px 15px 5px 15px;
+  margin: 0 5px 0 5px;
 }
 .container {
   display: flex;
@@ -39,15 +40,25 @@ p {
 }
 .card {
   margin: 0 2% 0 0;
-  width: 50%;
+  width: 70%;
+}
+.reservation-card {
+  height: 200px;
+  width: auto;
+}
+.dash-reservation-card {
   transition: 0.5s;
 }
-.card:hover {
+.dash-reservation-card:hover {
   transform: translateY(-10px);
 }
 .table-card {
   height: 200px;
   width: 200px;
+  transition: 0.5s;
+}
+.table-card:hover {
+  transform: translateY(-10px);
 }
 
 @media only screen and (max-width: 800px) {

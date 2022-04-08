@@ -13,30 +13,20 @@ function ReservationDetail({ reservations, cancelHandler }) {
       if (res.status === "booked") {
         return (
           <>
-            <div class="container p-2 bd-highlight">
-              <Link
-                type="button"
-                className="btn btn-info"
-                to={`/reservations/${res.reservation_id}/seat`}
-              >
-                Seat
-              </Link>
-              <Link
-                type="button"
-                className="btn btn-warning"
-                to={`/reservations/${res.reservation_id}/edit`}
-              >
-                Edit
-              </Link>
-              <button
-                data-reservation-id-cancel={res.reservation_id}
-                type="button"
-                className="btn btn-danger"
-                onClick={(e) => cancelHandler(res)}
-              >
-                Cancel
-              </button>
-            </div>
+            <Link
+              type="button"
+              className="btn btn-info"
+              to={`/reservations/${res.reservation_id}/seat`}
+            >
+              Seat
+            </Link>
+            <Link
+              type="button"
+              className="btn btn-warning"
+              to={`/reservations/${res.reservation_id}/edit`}
+            >
+              Edit
+            </Link>
           </>
         );
       } else return null;
@@ -46,7 +36,7 @@ function ReservationDetail({ reservations, cancelHandler }) {
       return (
         <div
           key={res.reservation_id}
-          className="card text-white bg-dark mb-3"
+          className="dash-reservation-card card text-white bg-dark mb-3 "
           style={{ maxWidth: "18rem" }}
         >
           <div className="card-header">
@@ -66,8 +56,16 @@ function ReservationDetail({ reservations, cancelHandler }) {
             <h6 className="card-text">Party of {`${res.people}`}</h6>
           </div>
 
-          <div class="d-flex flex-row bd-highlight mb-3 justify-content-center">
+          <div className="container d-flex flex-row bd-highlight mb-3 justify-content-center">
             {showSeatButton()}
+            <button
+              data-reservation-id-cancel={res.reservation_id}
+              type="button"
+              className="btn btn-danger"
+              onClick={(e) => cancelHandler(res)}
+            >
+              Cancel
+            </button>
           </div>
         </div>
       );

@@ -107,7 +107,6 @@ function Dashboard({ thisDay }) {
 
   return (
     <main>
-      <h1>Table For Tú</h1>
       <h2>Dashboard</h2>
       <div className="btn-group" role="group" aria-label="Basic example">
         <button

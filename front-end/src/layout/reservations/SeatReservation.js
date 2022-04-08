@@ -51,7 +51,7 @@ function SeatReservation() {
     <>
       <h2>Select Table</h2>
       <ErrorAlert error={error} />
-      <div className="card text-center">
+      <div className=" card text-center reservation-card">
         <div className="card-body">
           <h5 className="card-title">Reservation Information</h5>
           <div className="input-group">
@@ -73,14 +73,14 @@ function SeatReservation() {
                 onClick={clickHandler}
               >
                 Seat Guest
-              </button>
+              </button>{" "}
+              <Link type="button" className="btn btn-danger" to={"/"}>
+                Cancel
+              </Link>
             </div>
           </div>
         </div>
       </div>
-      <Link type="button" className="btn btn-danger" to={"/"}>
-        Cancel
-      </Link>
     </>
   );
 }
