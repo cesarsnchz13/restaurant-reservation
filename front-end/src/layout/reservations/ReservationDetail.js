@@ -74,11 +74,15 @@ function ReservationDetail({ reservations, cancelHandler }) {
     }
   });
 
-  return (
-    <>
-      <div className="list">{reservationList}</div>
-    </>
-  );
+  if (reservationList.length) {
+    return (
+      <>
+        <div className="list">{reservationList}</div>
+      </>
+    );
+  } else {
+    return <h5>No reservations on this day</h5>;
+  }
 }
 
 export default ReservationDetail;

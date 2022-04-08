@@ -1,7 +1,8 @@
 body {
   background-image: url(../layout/photos/table-background.jpg);
-  background-size: cover;
+  background-size: 100% 100%;
   background-repeat: no-repeat;
+  background-attachment: fixed;
   backdrop-filter: opacity(20%);
   backdrop-filter: blur(2px);
   font-family: "Merriweather Sans", sans-serif;
@@ -70,8 +71,21 @@ p {
 @media only screen and (max-width: 800px) {
   body {
     background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+  h5 {
+    color: goldenrod;
   }
   .side-bar {
     height: 30vh;
+  }
+  .list {
+    display: flex;
+    justify-content: center;
+  }
+  .heading {
+    display: flex;
+    justify-content: center;
   }
 }

@@ -132,7 +132,7 @@ function Dashboard({ thisDay }) {
         </button>
       </div>
       <div className="d-md-flex mb-3">
-        <h4 className="mb-0">Reservations for {date}</h4>
+        <h4 className="heading mb-0">Reservations for {date}</h4>
       </div>
       <ErrorAlert error={reservationsError} />
       <ReservationDetail
@@ -140,7 +140,7 @@ function Dashboard({ thisDay }) {
         tables={tables}
         cancelHandler={cancelHandler}
       />
-      <h4 className="mb-0">Available Tables</h4>
+      <h4 className=" mb-0 heading">Available Tables</h4>
       <TableDetail tables={tables} finishHandler={finishHandler} />
     </main>
   );
