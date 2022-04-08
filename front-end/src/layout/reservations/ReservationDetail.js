@@ -49,20 +49,21 @@ function ReservationDetail({ reservations, cancelHandler }) {
           className="card text-white bg-dark mb-3"
           style={{ maxWidth: "18rem" }}
         >
-          <div className="card-header">{`Reservation ID: ${res.reservation_id}`}</div>
-          <div className="card-body">
+          <div className="card-header">
             <h5 data-reservation-id-status={res.reservation_id}>
-              Status: {status}
+              Status: <p>{status}</p>
             </h5>
-            <h6 className="card-title">
-              Guest Name: {`${res.first_name} ${res.last_name}`}
-            </h6>
-            <p className="card-text">Mobile Number: {`${res.mobile_number}`}</p>
-            <p className="card-text">Date: {`${res.reservation_date}`}</p>
-            <p className="card-text">
-              Time: {`${show12HourTime(res.reservation_time)}`}
-            </p>
-            <p className="card-text">Party of {`${res.people}`}</p>
+          </div>
+          <div className="card-body">
+            <h6 className="card-title">Guest Name:</h6>
+            <p>{`${res.first_name} ${res.last_name}`}</p>
+            <h6 className="card-text">Mobile Number: </h6>
+            <p>{`${res.mobile_number}`}</p>
+            <h6 className="card-text">Date: </h6>
+            <p>{`${res.reservation_date}`}</p>
+            <h6 className="card-text">Time:</h6>
+            <p>{`${show12HourTime(res.reservation_time)}`}</p>
+            <h6 className="card-text">Party of {`${res.people}`}</h6>
           </div>
 
           <div class="d-flex flex-row bd-highlight mb-3 justify-content-center">

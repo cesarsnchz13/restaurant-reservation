@@ -34,12 +34,14 @@ function TableDetail({ tables, finishHandler }) {
           style={{ maxWidth: "18rem" }}
           key={table.table_id}
         >
-          <div className="card-header">{table.table_name}</div>
+          <div className="card-header">
+            Table: <h6>{table.table_name}</h6>{" "}
+          </div>
           <div className="card-body">
             <h5 className="card-title" data-table-id-status={table.table_id}>
               {tableStatus}
             </h5>
-            <p className="card-text">Capacity: {table.capacity}</p>
+            <h6 className="card-text">Capacity: {table.capacity}</h6>
           </div>
         </div>
       );

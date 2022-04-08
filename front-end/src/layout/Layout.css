@@ -16,6 +16,9 @@ h4 {
   display: flex;
   justify-content: flex-start;
 }
+p {
+  color: goldenrod;
+}
 .side-bar {
   background-color: #393a44;
   min-width: 200px;
@@ -36,6 +39,11 @@ h4 {
 }
 .card {
   margin: 0 2% 0 0;
+  width: 50%;
+  transition: 0.5s;
+}
+.card:hover {
+  transform: translateY(-10px);
 }
 .table-card {
   height: 200px;
