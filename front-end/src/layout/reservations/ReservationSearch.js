@@ -39,7 +39,7 @@ function ReservationSearch() {
     if (guestList.length) {
       return <ReservationDetail reservations={guestList} />;
     } else {
-      return <p className="text-danger">No reservations found</p>;
+      return <h2 className="text-danger ">No reservations found</h2>;
     }
   };
 
@@ -47,7 +47,7 @@ function ReservationSearch() {
     <div>
       <br />
       <ErrorAlert error={errors} />
-      <div className="card">
+      <div className=" card text-white bg-secondary mb-3 search-card">
         <form className="card-header">
           <label htmlFor="mobile_number">Enter Guest's Phone Number</label>
           <div className="form-row align-items-center">
