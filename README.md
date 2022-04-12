@@ -79,7 +79,7 @@ PUT `/reservations/:reservation_id`
 POST `/reservations`
 - Creates a new reservation
 
-###Tables
+### Tables
 
 GET `/tables`
 - Gets a list of all tables.
