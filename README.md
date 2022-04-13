@@ -28,7 +28,7 @@
 ### Back End
 - `cd` into `restaurant-reservation-main/back-end`
 - run `npm install`
-- run `npx knex migrate:lates` and `npx knex seed:run`
+- run `npx knex migrate:latest` and `npx knex seed:run`
 
 ---
 ## Features
