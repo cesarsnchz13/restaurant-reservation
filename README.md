@@ -3,7 +3,7 @@
 ### [View Website](https://cesar-reservation-client.herokuapp.com/)
 ---
 ## Summary
-Periodic Tables allows restaurant hosts or managers to create tables and book reservations. This application prives the ability to create, edit, and search for reservations in the at any point in time. Reservations can be searched via phone number. Users are also able to seat guests to occupy tables and finish/close reservations as guests finish their stay. 
+### Periodic Tables allows restaurant hosts or managers to create tables and book reservations. This application prives the ability to create, edit, and search for reservations in the at any point in time. Reservations can be searched via phone number. Users are also able to seat guests to occupy tables and finish/close reservations as guests finish their stay. 
 ---
 ## Technology and Tools Utilized:
 ### Front End
